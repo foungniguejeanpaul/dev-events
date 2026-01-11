@@ -91,7 +91,7 @@ export const events = [
         slug: "cloud-native-meetup",
         image: "/images/event5.png",
         title: "Cloud Native Meetup",
-        location: "Portland, OR"
+        location: "Portland, OR",
         date: "January 15, 2025",
         time: "6:30 PM - 9:00 PM",
     },

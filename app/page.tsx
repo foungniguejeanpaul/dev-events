@@ -2,6 +2,7 @@ import { EventDocument } from '@/database';
 import EventCard from './components/EventCard';
 import ExploreBtn from './components/ExploreBtn';
 import { cacheLife } from 'next/cache';
+export const dynamic = 'force-dynamic';
 
 import { events } from '@/lib/constants';
 

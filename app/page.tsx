@@ -1,11 +1,13 @@
 import { EventDocument } from '@/database';
 import EventCard from './components/EventCard';
 import ExploreBtn from './components/ExploreBtn';
+import { cacheLife } from 'next/cache';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const page = async () => {
-
+    'use cache';
+    cacheLife('seconds');
     const response = await fetch(`${BASE_URL}/api/events`, {
         next: { revalidate: 60 }
     });
@@ -23,7 +25,7 @@ const page = async () => {
                 <h3>Featured Events</h3>
                 <ul className="events">
                     {events && events.length > 0 && events.map((event: EventDocument) => (
-                        <li key={event.title}>
+                        <li className='list-none' key={event.title}>
                             <EventCard {...event} />
                         </li>
                     ))}

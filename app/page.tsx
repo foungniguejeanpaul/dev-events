@@ -26,7 +26,7 @@ const page = async () => {
             <div className='mt-20 space-y-7'>
                 <h3>Featured Events</h3>
                 <ul className="events">
-                    {events && events.length > 0 && events.map((event: EventDocument) => (
+                    {events && events.length > 0 && events.map((event) => (
                         <li className='list-none' key={event.title}>
                             <EventCard {...event} />
                         </li>

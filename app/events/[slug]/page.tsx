@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
-import { EventDocument } from "@/database/event.model";
 import { getSimilarEventBySlug } from "@/lib/actions/event.actions";
 import EventCard from "@/app/components/EventCard";
+import { cacheLife } from "next/cache";
 
 const EventDetailsItem = ({ icon, alt, label }: { icon: string, alt: string, label: string }) => (
     <div className="flex-row-gap-2 items-center">
@@ -34,6 +34,9 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const EventDetailsPaage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+    
+    'use cache';
+    cacheLife('minutes');
 
     const { slug } = await params;
 
@@ -48,7 +51,7 @@ const EventDetailsPaage = async ({ params }: { params: Promise<{ slug: string }>
 
     const bookings = 10;
 
-    const similarEvents: EventDocument[] = await getSimilarEventBySlug(data.slug);
+    const similarEvents = await getSimilarEventBySlug(data.slug);
 
 
     return (
@@ -99,14 +102,14 @@ const EventDetailsPaage = async ({ params }: { params: Promise<{ slug: string }>
                             </p>
                         )}
 
-                        <BookEvent />
+                        <BookEvent eventId={data._id} slug={data.slug} />
                     </div>
                 </aside>
             </div>
             <div className="flex w-full flex-col gap-4 pt-20">
                 <h2>Similar Events</h2>
                 <div className="events">
-                    {similarEvents.length > 0 && similarEvents.map((similarEvent:EventDocument) => (
+                    {similarEvents.length > 0 && similarEvents.map((similarEvent) => (
                         <EventCard key={similarEvent.slug} {...similarEvent} />
                     ))}
                 </div>
